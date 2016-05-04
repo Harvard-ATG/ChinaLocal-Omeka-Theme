@@ -1,67 +1,154 @@
 <!DOCTYPE html>
-<html class="<?php echo get_theme_option('Style Sheet'); ?>" lang="<?php echo get_html_lang(); ?>">
+<html lang="<?php
+echo get_html_lang();
+?>">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=yes" />
-    <?php if ($description = option('description')): ?>
-    <meta name="description" content="<?php echo $description; ?>" />
-    <?php endif; ?>
+	<meta charset="utf-8">
+  <?php
+if ($description = option('description')):
+?>
+  <meta name="description" content="<?php
+    echo $description;
+?>" />
+  <?php
+endif;
+?>
+  
+  <title><?php
+echo option('site_title');
+echo isset($title) ? ' | ' . strip_formatting($title) : '';
+?></title>
 
-    <?php
-    if (isset($title)) {
-        $titleParts[] = strip_formatting($title);
-    }
-    $titleParts[] = option('site_title');
-    ?>
-    <title><?php echo implode(' &middot; ', $titleParts); ?></title>
+  <?php
+echo auto_discovery_link_tags();
+?>
+  
 
-    <?php echo auto_discovery_link_tags(); ?>
+  <!-- Plugin Stuff -->
 
-    <?php fire_plugin_hook('public_head',array('view'=>$this)); ?>
-    <!-- Stylesheets -->
-    <?php
-    queue_css_file(array('iconfonts', 'skeleton','style'));
+  <?php
+fire_plugin_hook('public_head', array(
+    'view' => $this
+));
+?>
 
-    echo head_css();
-    ?>
-    <!-- JavaScripts -->
-    <?php queue_js_file('vendor/selectivizr', 'javascripts', array('conditional' => '(gte IE 6)&(lte IE 8)')); ?>
-    <?php queue_js_file('vendor/respond'); ?>
-    <?php queue_js_file('vendor/jquery-accessibleMegaMenu'); ?>
-    <?php queue_js_file('china-local'); ?>
-    <?php queue_js_file('globals'); ?>
-    <?php echo head_js(); ?>
+  <!-- Stylesheets -->
+
+  <?php
+queue_css_url('http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic');
+queue_css_file('foundation');
+queue_css_file('app');
+echo head_css();
+?>
+
+  <!-- JavaScripts -->
+  <?php
+queue_js_file('app');
+?>
+  <?php
+queue_js_file('foundation/foundation');
+?>
+  <?php
+queue_js_file('foundation/foundation.orbit');
+?>
+  <?php
+queue_js_file('vendor/jquery');
+?>
+  <?php
+queue_js_file('vendor/custom.modernizr');
+?>
+
+  <?php
+queue_js_file('foundation/foundation.forms');
+?>
+
+
+
+
+  <?php
+echo head_js();
+?>
+
+
+
+
 </head>
- <?php echo body_tag(array('id' => @$bodyid, 'class' => @$bodyclass)); ?>
-    <a href="#content" id="skipnav"><?php echo __('Skip to main content'); ?></a>
-    <?php fire_plugin_hook('public_body', array('view'=>$this)); ?>
-        <header role="banner">
-            <?php fire_plugin_hook('public_header', array('view'=>$this)); ?>
-            <div id="site-title"><?php echo link_to_home_page(theme_logo()); ?></div>
 
-            <div id="search-container" role="search">
-                <?php if (get_theme_option('use_advanced_search') === null || get_theme_option('use_advanced_search')): ?>
-                <?php echo search_form(array('show_advanced' => true)); ?>
-                <?php else: ?>
-                <?php echo search_form(); ?>
-                <?php endif; ?>
-            </div>
-        </header>
+<?php
+echo body_tag(array(
+    'id' => @$bodyid,
+    'class' => @$bodyclass
+));
+?>
+    <?php
+fire_plugin_hook('public_body', array(
+    'view' => $this
+));
+?>
 
-         <div id="primary-nav" role="navigation">
-             <?php
-                  echo public_nav_main();
-             ?>
-         </div>
+<header>
+		  <?php
+fire_plugin_hook('public_header');
+?>
+		</header>
+		
+		        <div id="primary-nav" class="contain-to-grid sticky">
+		<nav class="top-bar">
+		 <ul class="title-area">
+		    <!-- Title Area -->
+		    <li class="name">
+		       <h1 id="site-title"><a href="#"><?php
+echo link_to_home_page(theme_logo());
+?></a></h1>
+		    </li>
+		    <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+		    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+		  </ul>
+	
+				<section class="top-bar-section">
+								        <!-- Left Nav Section -->
+									<ul class="left">
+					      
+				        <?php
+echo public_nav_main();
+?>
+		
 
-         <div id="mobile-nav" role="navigation" aria-label="<?php echo __('Mobile Navigation'); ?>">
-             <?php
-                  echo public_nav_main();
-             ?>
-         </div>
+						
+										</ul>
+				     
 
-        <?php echo theme_header_image(); ?>
+			<ul class="right">
+				<li class="divider hide-for-small"></li>
+				<li><?php
+echo link_to_item_search('More Search Options');
+?></li>
+				
+		  <li><?php
+echo search_form(array(
+    'show_advanced' => false
+));
+?></li>
+		
+</ul>
+ </section>
+		    </nav>
 
-    <div id="content" role="main" tabindex="-1">
 
-<?php fire_plugin_hook('public_content_top', array('view'=>$this)); ?>
+
+		  </div>
+
+	<div class="row">
+		
+		<div class="large-12 columns">
+	
+	      <h1 id="site-title"><?php
+echo link_to_home_page(theme_logo());
+?></h1>
+
+
+
+
+      
+
+
